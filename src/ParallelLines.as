@@ -6,7 +6,7 @@ package
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
-	public class ParrallelLines extends Sprite
+	public class ParallelLines extends Sprite
 	{
 		protected static const ZERO_POINT : Point = new Point();
 
@@ -37,7 +37,7 @@ package
 		/* the current line color */
 		protected var currentLineColour : uint;
 		
-		public function ParrallelLines()
+		public function ParallelLines()
 		{
 			if( stage ) init();
 			else addEventListener( Event.ADDED_TO_STAGE, init );

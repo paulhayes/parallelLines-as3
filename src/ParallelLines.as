@@ -60,9 +60,15 @@ package
 			{
 				var point : Point = points[i];
 				var nextPoint : Point = points[i+1];
+				/* calculate the direction of the current point from the last point */
 				var direction : Point = point.subtract( nextPoint );
+				/* 
+				   set the length of the direction to be the distance 
+				   that the parallel lines should be from the centre 
+				*/
 				direction.normalize( parallelLineDistance );
 				
+				/* work out the tangients to the direction, and add them to the current position */
 				var leftPoint : Point = new Point( direction.y, -direction.x ).add( point );
 				var rightPoint : Point = new Point( -direction.y, direction.x ).add( point );
 				
@@ -104,15 +110,18 @@ package
 				nextIndex = i+1;
 				previousIndex = i-1;
 				
+				/* if out of range, clamp the next and previous index */
 				if( nextIndex >= rawPoints.length ) nextIndex = i;
 				if( previousIndex < 0 ) previousIndex = i;
 				
 				previousPoint = rawPoints[previousIndex];
 				point = rawPoints[i];
 				nextPoint = rawPoints[nextIndex];
-				
+
+				/* caluclate average position of previous current and next position */
 				smoothedPoint = Point.interpolate( new Point().add( previousPoint ).add( point ).add( nextPoint ), ZERO_POINT, 1/3 );
 				
+				/* if the position doesn't exist create it, else overwrite it */
 				if( i == points.length ) points.push( smoothedPoint );
 				else points[i] = smoothedPoint;
 			}
@@ -138,6 +147,7 @@ package
 			
 			if( points.length > 0 ) lastPoint = points[ points.length - 1 ];
 			
+			/* if there isn't a last point, or the last point is greather than threshold */
 			if( !lastPoint || Point.distance( lastPoint, currentPoint ) > minimumLineDistance )
 			{
 				rawPoints.push( currentPoint );
